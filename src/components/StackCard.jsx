@@ -41,7 +41,7 @@ export default function StackCard() {
             transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             className="flex items-center justify-between py-2 cursor-default"
           >
-            <span className="font-inter text-sm font-medium text-ink dark:text-cream">{item.name}</span>
+            <span className="font-inter text-xs sm:text-sm font-medium text-ink dark:text-cream">{item.name}</span>
             <Dots level={item.level} />
           </motion.li>
         ))}

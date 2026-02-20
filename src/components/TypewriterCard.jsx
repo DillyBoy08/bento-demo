@@ -3,24 +3,24 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const phrases = [
   'Building interfaces that feel alive.',
-  'Clean code.\u2004Dirty hands.',
+  'Clean code. Dirty hands.',
   'Detail is everything.',
 ]
 
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.04 },
+    transition: { staggerChildren: 0.09 },
   },
   exit: {
-    transition: { staggerChildren: 0.02, staggerDirection: -1 },
+    transition: { staggerChildren: 0.04, staggerDirection: -1 },
   },
 }
 
-const charVariants = {
+const wordVariants = {
   hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.25 } },
-  exit: { opacity: 0, y: -10, transition: { duration: 0.1 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.12 } },
 }
 
 export default function TypewriterCard() {
@@ -32,9 +32,10 @@ export default function TypewriterCard() {
   }, [])
 
   const phrase = phrases[index]
+  const words = phrase.split(' ')
 
   return (
-    <div className="h-full p-6 flex flex-col justify-between bg-warm-beige dark:bg-[#2a2218] min-h-[180px]">
+    <div className="h-full p-4 sm:p-6 flex flex-col justify-between bg-warm-beige dark:bg-[#2a2218] min-h-[180px]">
       <p className="font-mono text-xs uppercase tracking-widest text-ink/40 dark:text-cream/40 mb-3">
         Philosophy
       </p>
@@ -47,16 +48,16 @@ export default function TypewriterCard() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="font-syne font-bold text-2xl md:text-3xl leading-tight text-ink dark:text-cream"
+            className="font-syne font-bold text-lg sm:text-2xl md:text-3xl leading-tight text-ink dark:text-cream"
             aria-label={phrase}
           >
-            {phrase.split('').map((char, i) => (
+            {words.map((word, wi) => (
               <motion.span
-                key={i}
-                variants={charVariants}
-                style={{ display: 'inline-block', whiteSpace: char === ' ' || char === '\u2004' ? 'pre' : 'normal' }}
+                key={wi}
+                variants={wordVariants}
+                style={{ display: 'inline-block', marginRight: wi < words.length - 1 ? '0.3em' : 0 }}
               >
-                {char}
+                {word}
               </motion.span>
             ))}
           </motion.p>

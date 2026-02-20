@@ -58,7 +58,7 @@ export default function ClockCard() {
 
       <div className="mt-3">
         <p className="font-mono text-[10px] uppercase tracking-widest text-cream/40">{time.day}</p>
-        <p className="font-mono text-xs text-cream/70 mt-0.5 truncate">{time.date}</p>
+        <p className="font-mono text-xs text-cream/70 mt-0.5">{time.date}</p>
       </div>
     </div>
   )

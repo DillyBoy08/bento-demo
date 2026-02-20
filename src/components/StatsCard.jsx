@@ -22,7 +22,7 @@ export default function StatsCard() {
         {areas.map(({ label, pct }) => (
           <li key={label}>
             <div className="flex items-center justify-between mb-1">
-              <span className="font-inter text-xs font-medium text-ink dark:text-cream">{label}</span>
+              <span className="font-inter text-[11px] sm:text-xs font-medium text-ink dark:text-cream">{label}</span>
               <span className="font-mono text-[10px] text-ink/40 dark:text-cream/40">{pct}%</span>
             </div>
             <div className="h-1.5 bg-ink/10 dark:bg-cream/10 w-full">

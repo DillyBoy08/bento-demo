@@ -63,36 +63,17 @@ export default function App() {
         <div className={`${px} py-6 md:py-8`}>
 
           {/* ── Nav ───────────────────────────────── */}
-          <motion.header {...m(0)} className="flex items-center justify-between mb-8 md:mb-10">
-            <div>
-              <span className="font-mono text-xs uppercase tracking-widest text-ink/40 dark:text-cream/40 block mb-0.5">
-                Dylan Swart
-              </span>
-              <span className="font-inter text-xs text-ink/30 dark:text-cream/30">
-                Frontend Developer · South Africa
-              </span>
-            </div>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <span className="font-mono text-xs text-ink/25 dark:text-cream/25 hidden sm:block">
-                Interactive UI Demo
-              </span>
-              <div className="w-px h-4 bg-ink/15 dark:bg-cream/15 hidden sm:block" />
-              <a
-                href="mailto:swartdylan42@gmail.com"
-                className="font-mono text-xs uppercase tracking-wider px-2.5 py-1.5 border-[2px] border-ink dark:border-cream/40 text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
-              >
-                Hire me →
-              </a>
-            </div>
+          <motion.header {...m(0)} className="flex items-center justify-between mb-8 md:mb-10 gap-3">
+            <span className="font-mono text-xs uppercase tracking-wider sm:tracking-widest text-ink/40 dark:text-cream/40">
+              Dylan Swart
+            </span>
+            <a
+              href="mailto:swartdylan42@gmail.com"
+              className="font-mono text-xs uppercase tracking-wider px-2.5 py-1.5 border-[2px] border-ink dark:border-cream/40 text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
+            >
+              Hire me →
+            </a>
           </motion.header>
-
-          {/* ── Description ───────────────────────── */}
-          <motion.div {...m(1)} className="mb-6 md:mb-8">
-            <p className="font-inter text-sm text-ink/45 dark:text-cream/40 leading-relaxed max-w-lg">
-              A live showcase of frontend skills — animation, interactivity, CSS craft, and
-              state management. Every card is independently interactive, handbuilt from scratch.
-            </p>
-          </motion.div>
 
           {/* ── Desktop grid (md+) ────────────────── */}
           <div
@@ -172,12 +153,9 @@ export default function App() {
           {/* ── Footer ────────────────────────────── */}
           <motion.footer
             {...m(14)}
-            className="mt-8 pt-5 border-t border-ink/10 dark:border-cream/10 flex items-center justify-between flex-wrap gap-3"
+            className="mt-8 pt-5 border-t border-ink/10 dark:border-cream/10 flex items-center justify-center"
           >
             <p className="font-mono text-xs text-ink/30 dark:text-cream/30">© 2026 Dylan Swart</p>
-            <p className="font-mono text-xs text-ink/20 dark:text-cream/20">
-              React · Framer Motion · Tailwind · Handbuilt
-            </p>
           </motion.footer>
 
         </div>

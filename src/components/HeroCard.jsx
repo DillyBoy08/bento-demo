@@ -55,7 +55,7 @@ export default function HeroCard() {
     <div className="h-full p-6 sm:p-7 flex flex-col justify-between bg-cream dark:bg-[#1a1a1a]" style={{ minHeight: 260 }}>
       <div>
         {/* Name — two deliberate lines */}
-        <h1 className="font-syne font-extrabold text-6xl sm:text-7xl md:text-7xl leading-[0.88] tracking-tight text-ink dark:text-cream mb-3">
+        <h1 className="font-syne font-extrabold text-5xl sm:text-7xl md:text-7xl leading-[0.88] tracking-tight text-ink dark:text-cream mb-3">
           <AnimatedText text="Dylan" startDelay={0} />
           <AnimatedText text="Swart" startDelay={0.2} />
         </h1>
@@ -69,7 +69,7 @@ export default function HeroCard() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.28 }}
-              className="font-mono text-xs uppercase tracking-widest text-terracotta"
+              className="font-mono text-xs uppercase tracking-wider sm:tracking-widest text-terracotta"
             >
               {subtitles[index]}
             </motion.p>
@@ -85,7 +85,7 @@ export default function HeroCard() {
 
       {/* Bottom row */}
       <div className="flex flex-wrap items-center gap-2 mt-5">
-        <div className="flex items-center gap-2 border-[2px] border-ink dark:border-cream/40 px-2.5 py-1.5 text-[11px] font-mono uppercase tracking-wider text-ink dark:text-cream">
+        <div className="flex items-center gap-2 border-[2px] border-ink dark:border-cream/40 px-2 sm:px-2.5 py-1.5 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-ink dark:text-cream">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
@@ -97,14 +97,14 @@ export default function HeroCard() {
           href="https://github.com/DillyBoy08"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 border-[2px] border-ink dark:border-cream/40 px-2.5 py-1.5 text-[11px] font-mono text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
+          className="flex items-center gap-1.5 border-[2px] border-ink dark:border-cream/40 px-2 sm:px-2.5 py-1.5 text-[10px] sm:text-[11px] font-mono text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
         >
           <GithubIcon /> GitHub
         </a>
 
         <a
           href="mailto:swartdylan42@gmail.com"
-          className="flex items-center gap-1.5 border-[2px] border-terracotta bg-terracotta px-2.5 py-1.5 text-[11px] font-mono text-cream hover:bg-ink hover:border-ink transition-colors"
+          className="flex items-center gap-1.5 border-[2px] border-terracotta bg-terracotta px-2 sm:px-2.5 py-1.5 text-[10px] sm:text-[11px] font-mono text-cream hover:bg-ink hover:border-ink transition-colors"
         >
           <MailIcon /> Contact
         </a>
