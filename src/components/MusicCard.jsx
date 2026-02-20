@@ -1,16 +1,30 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
 const BARS = 12
 const BAR_CLASSES = ['bar-1','bar-2','bar-3','bar-4','bar-5','bar-6','bar-7','bar-8','bar-9','bar-10','bar-11','bar-12']
 
+// Royalty-free tracks (SoundHelix, public domain)
 const tracks = [
-  { title: 'Come Together',       artist: 'The Beatles', duration: 259 },
-  { title: 'Here Comes the Sun',  artist: 'The Beatles', duration: 185 },
-  { title: 'Let It Be',           artist: 'The Beatles', duration: 243 },
+  {
+    title: 'Song One',
+    artist: 'SoundHelix',
+    src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+  },
+  {
+    title: 'Song Two',
+    artist: 'SoundHelix',
+    src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+  },
+  {
+    title: 'Song Three',
+    artist: 'SoundHelix',
+    src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+  },
 ]
 
 function fmt(s) {
+  if (!isFinite(s) || isNaN(s)) return '0:00'
   return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
 }
 
@@ -31,27 +45,57 @@ export default function MusicCard() {
   const [playing, setPlaying]   = useState(false)
   const [trackIdx, setTrackIdx] = useState(0)
   const [progress, setProgress] = useState(0)
-  const intervalRef = useRef(null)
+  const [duration, setDuration] = useState(0)
+  const audioRef = useRef(null)
   const track = tracks[trackIdx]
 
+  // Create / swap audio element when track changes
   useEffect(() => {
-    if (playing) {
-      intervalRef.current = setInterval(() => {
-        setProgress(p => {
-          if (p >= track.duration) { setPlaying(false); return 0 }
-          return p + 1
-        })
-      }, 1000)
-    } else {
-      clearInterval(intervalRef.current)
+    const audio = new Audio(track.src)
+    audio.preload = 'metadata'
+    audioRef.current = audio
+
+    audio.addEventListener('loadedmetadata', () => setDuration(audio.duration))
+    audio.addEventListener('timeupdate', () => setProgress(audio.currentTime))
+    audio.addEventListener('ended', () => goNext())
+
+    return () => {
+      audio.pause()
+      audio.src = ''
     }
-    return () => clearInterval(intervalRef.current)
-  }, [playing, track.duration])
+  }, [trackIdx])
 
-  function prev() { setProgress(0); setTrackIdx(i => (i - 1 + tracks.length) % tracks.length) }
-  function next() { setProgress(0); setTrackIdx(i => (i + 1) % tracks.length) }
+  // Keep playing state in sync with the audio element
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (playing) {
+      audio.play().catch(() => setPlaying(false))
+    } else {
+      audio.pause()
+    }
+  }, [playing])
 
-  const pct = (progress / track.duration) * 100
+  const goNext = useCallback(() => {
+    setPlaying(false)
+    setProgress(0)
+    setTrackIdx(i => (i + 1) % tracks.length)
+  }, [])
+
+  function prev() {
+    setPlaying(false)
+    setProgress(0)
+    setTrackIdx(i => (i - 1 + tracks.length) % tracks.length)
+  }
+
+  function seek(e) {
+    const pct = e.target.value / 100
+    const time = pct * duration
+    if (audioRef.current) audioRef.current.currentTime = time
+    setProgress(time)
+  }
+
+  const pct = duration > 0 ? (progress / duration) * 100 : 0
 
   return (
     <div className="h-full p-6 flex flex-col justify-between bg-ink text-cream" style={{ minHeight: 200 }}>
@@ -80,18 +124,27 @@ export default function MusicCard() {
         </div>
       </div>
 
-      {/* Progress */}
+      {/* Progress — real seekable range */}
       <div className="mt-5">
-        <div className="relative h-px bg-cream/15 mb-2">
-          <motion.div className="absolute top-0 left-0 h-full bg-terracotta" style={{ width: `${pct}%` }} />
+        <div className="relative h-1 mb-2">
+          <div className="absolute inset-0 bg-cream/15 rounded-full" />
           <motion.div
-            className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-cream border-2 border-ink"
-            style={{ left: `calc(${pct}% - 5px)` }}
+            className="absolute top-0 left-0 h-full bg-terracotta rounded-full"
+            style={{ width: `${pct}%` }}
+          />
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={pct}
+            onChange={seek}
+            className="absolute inset-0 w-full opacity-0 cursor-pointer"
+            aria-label="Seek"
           />
         </div>
         <div className="flex justify-between font-mono text-[10px] text-cream/30">
           <span>{fmt(progress)}</span>
-          <span>{fmt(track.duration)}</span>
+          <span>{fmt(duration)}</span>
         </div>
       </div>
 
@@ -107,7 +160,7 @@ export default function MusicCard() {
         >
           {playing ? <PauseIcon /> : <PlayIcon />}
         </button>
-        <button onClick={next} className="text-cream/50 hover:text-cream transition-colors p-1" aria-label="Next">
+        <button onClick={goNext} className="text-cream/50 hover:text-cream transition-colors p-1" aria-label="Next">
           <NextIcon />
         </button>
       </div>
